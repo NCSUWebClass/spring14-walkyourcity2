@@ -22,6 +22,10 @@
   var current_lat;
   var current_lng;
 
+
+
+
+
   function initialize() {
 				
 // Try HTML5 geolocation
@@ -38,22 +42,22 @@ if(navigator.geolocation) {
     center: pos,
     zoom: 15
   });
-
-   var request = {
-    location: pyrmont,
+ var request = {
+ 	location: pyrmont,
     radius: 5000,
     types: ['restaurant']
   };
-  var request2 = {
-    location: pyrmont,
-    radius: 5000,
-    types: ['park']
-  };
+   request.types =  document.getElementById("cat1").value;
+  //var request2 = {
+  //  location: pyrmont,
+  //  radius: 5000,
+  //  types: ['park']
+  //};
   infowindow = new google.maps.InfoWindow();
 
   var service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, callback);
-  service.nearbySearch(request2, callback);
+  //service.nearbySearch(request2, callback);
 
 
   var infowindow = new google.maps.InfoWindow({
@@ -176,7 +180,15 @@ google.maps.event.addDomListener(window, 'load', initialize);
         <h2>Map</h2>
         <textarea id="search1" placeholder="Starting Location"></textarea>
         <textarea id="search2" placeholder="End Location"></textarea>
+        <select id="cat1">
+        	<option value=""></option>
+           <option value="museum">museum</option>
+           <option value="park">park</option>
+           <option value="restaurant">restaurant</option>
+           <option value="shopping_mall">shopping mall</option>
+        </select>
         <button type="submit" class="btn btn-primary large" onclick="initialize();">Submit</button>
+        </form>
         <h4 align="center">Directions</h4>
 
         <div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>
