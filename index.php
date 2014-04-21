@@ -11,6 +11,7 @@
     			padding: 0px
   			}
   		</style>
+  		<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
   		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places,geometry"></script>
 
   		<script>
@@ -203,12 +204,10 @@ if (status == google.maps.places.PlacesServiceStatus.OK) {
            <option value="shopping_mall">shopping mall</option>
         </select>
         <button type="submit" class="btn btn-primary large" onclick="initialize();">Submit</button>
-        </form>
-        <h4 align="center">Directions</h4>
-
-        <div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>
-        <p class="spacer"></p>
-        <div id="POI" style="width:400px; height:800px;"></div>
+        <div class="row">
+        <div id="directions" class="col-md-5" style="overflow: auto; height:200px;border-top:2px dashed;"></div>
+        <div id="POI" class="col-md-5"></div>
+        </div>
       </div>
     </div>
   </div>
