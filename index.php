@@ -109,7 +109,7 @@ if (status == google.maps.places.PlacesServiceStatus.OK) {
     });
 
     google.maps.event.addListener(marker, 'click', function() {
-      infowindow.setContent(place.name);
+      infowindow.setContent(place.name + "</br>" + "Rating: " + place.rating + "/5");
       infowindow.open(map, this);
     });
   }
