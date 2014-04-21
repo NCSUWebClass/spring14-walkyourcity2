@@ -15,7 +15,9 @@
 
   <script>
   var map;
-  var infowindow;
+  var infowindow = new google.maps.InfoWindow({
+            content: ""
+        });
   var pos;
   var current_lat;
   var current_lng;
@@ -142,12 +144,13 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <div class="wrapper">
       <div id="content">
         <h2>Map</h2>
+        <!--implement this after POI, work is in ncsu github
         <textarea id="search1" placeholder="Starting Location"></textarea>
         <textarea id="search2" placeholder="End Location"></textarea>
         <button type="submit" class="btn btn-primary large" onclick="initialize();">Submit</button>
         <h4 align="center">Directions</h4>
 
-        <div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>
+        <div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>--!>
         <p class="spacer"></p>
         <div id="POI" style="width:400px; height:800px;"></div>
       </div>
