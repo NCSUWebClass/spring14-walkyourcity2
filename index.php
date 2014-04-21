@@ -22,8 +22,12 @@
   var current_lat;
   var current_lng;
 
-  function initialize() {
 
+
+
+
+  function initialize() {
+				
 // Try HTML5 geolocation
 if(navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function(position) {
@@ -38,22 +42,22 @@ if(navigator.geolocation) {
     center: pos,
     zoom: 15
   });
-
-   var request = {
-    location: pyrmont,
+ var request = {
+ 	location: pyrmont,
     radius: 5000,
     types: ['restaurant']
   };
-  var request2 = {
-    location: pyrmont,
-    radius: 5000,
-    types: ['park']
-  };
+   request.types =  document.getElementById("cat1").value;
+  //var request2 = {
+  //  location: pyrmont,
+  //  radius: 5000,
+  //  types: ['park']
+  //};
   infowindow = new google.maps.InfoWindow();
 
   var service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, callback);
-  service.nearbySearch(request2, callback);
+  //service.nearbySearch(request2, callback);
 
 
   var infowindow = new google.maps.InfoWindow({
@@ -71,7 +75,31 @@ if(navigator.geolocation) {
     handleNoGeolocation(false);
   }
 
+	var directionsService = new google.maps.DirectionsService();
+	var directionsDisplay = new google.maps.DirectionsRenderer();
 
+	//set lat lang to Raleigh by default
+	var latlng = new google.maps.LatLng(35.779943, -78.641617);
+	curLoc =  pos;
+	endLoc = document.getElementById("search2").value;
+	//if route not asked, don't show it
+	if(curLoc != null && endLoc != null){
+		directionsDisplay.setMap(map);
+		directionsDisplay.setPanel(document.getElementById("directions"));
+		var start = curLoc; //Harris Field
+		var end =  endLoc;	//Worksite address
+		var request = {
+			origin:start,
+    		destination:end,
+    		travelMode: google.maps.DirectionsTravelMode.WALKING,
+    		unitSystem: google.maps.UnitSystem.IMPERIAL
+      	};
+		directionsService.route(request, function(response, status) {
+			if (status == google.maps.DirectionsStatus.OK) {
+				directionsDisplay.setDirections(response);
+			}
+		});
+	}
 }
 
 function callback(results, status) {
@@ -150,15 +178,22 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <div class="wrapper">
       <div id="content">
         <h2>Map</h2>
-        <!--implement this after POI, work is in ncsu github
         <textarea id="search1" placeholder="Starting Location"></textarea>
         <textarea id="search2" placeholder="End Location"></textarea>
+        <select id="cat1">
+        	<option value=""></option>
+           <option value="museum">museum</option>
+           <option value="park">park</option>
+           <option value="restaurant">restaurant</option>
+           <option value="shopping_mall">shopping mall</option>
+        </select>
         <button type="submit" class="btn btn-primary large" onclick="initialize();">Submit</button>
+        </form>
         <h4 align="center">Directions</h4>
 
         <div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>
         <p class="spacer"></p>
-        <div id="POI" style="width:400px; height:800px;"></div>--!>
+        <!--<div id="POI" style="width:400px; height:800px;"></div>-->
       </div>
     </div>
   </div>
