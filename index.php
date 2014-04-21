@@ -44,10 +44,16 @@ if(navigator.geolocation) {
     radius: 5000,
     types: ['restaurant']
   };
+  var request2 = {
+    location: pyrmont,
+    radius: 5000,
+    types: ['park']
+  };
   infowindow = new google.maps.InfoWindow();
 
   var service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, callback);
+  service.nearbySearch(request2, callback);
 
 
   var infowindow = new google.maps.InfoWindow({
@@ -75,7 +81,7 @@ function callback(results, status) {
 // add it to the page
 document.getElementsByTagName("body")[0].appendChild(listContainer);
 // Make the list itself which is a <ul>
-var listElement = document.createElement("ul");
+var listElement = document.createElement("ol");
 // add it to the page
 listContainer.appendChild(listElement);
 // Set up a loop that goes through the items in listItems one at a time
@@ -150,9 +156,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
         <button type="submit" class="btn btn-primary large" onclick="initialize();">Submit</button>
         <h4 align="center">Directions</h4>
 
-        <div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>--!>
+        <div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>
         <p class="spacer"></p>
-        <div id="POI" style="width:400px; height:800px;"></div>
+        <div id="POI" style="width:400px; height:800px;"></div>--!>
       </div>
     </div>
   </div>
