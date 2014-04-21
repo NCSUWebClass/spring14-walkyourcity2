@@ -16,13 +16,13 @@
   		<script>
   			var map;
   			var infowindow = new google.maps.InfoWindow({content: ""});
+  			var directionsService = new google.maps.DirectionsService();
+			var directionsDisplay = new google.maps.DirectionsRenderer();
   			var pos;
   			var current_lat;
   			var current_lng;
 
   			function getDirections(place) {
-  				var directionsService = new google.maps.DirectionsService();
-				var directionsDisplay = new google.maps.DirectionsRenderer();
 	
 				var curLoc = pos;
 				var endLoc = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.A);
