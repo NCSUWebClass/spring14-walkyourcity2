@@ -22,6 +22,16 @@
   var current_lat;
   var current_lng;
 
+ var request = {
+    location: pyrmont,
+    radius: 5000,
+    types: ['restaurant']
+  };
+
+
+
+
+
   function initialize() {
 
 // Try HTML5 geolocation
@@ -39,11 +49,7 @@ if(navigator.geolocation) {
     zoom: 15
   });
 
-   var request = {
-    location: pyrmont,
-    radius: 5000,
-    types: ['restaurant']
-  };
+   request.types =  getElementById("cat1");
   var request2 = {
     location: pyrmont,
     radius: 5000,
@@ -150,15 +156,25 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <div class="wrapper">
       <div id="content">
         <h2>Map</h2>
-        <!--implement this after POI, work is in ncsu github
+        <form method="get">
+      <!--  implement this after POI, work is in ncsu github -->
         <textarea id="search1" placeholder="Starting Location"></textarea>
         <textarea id="search2" placeholder="End Location"></textarea>
+        <select id="cat1">
+           <option value="museum"></option>
+           <option value="park"</option>
+           <option value="restaurant"></option>
+           <option value="shopping_mall"></option>
+           <option value=""></option>
+        
+        </select>
         <button type="submit" class="btn btn-primary large" onclick="initialize();">Submit</button>
+        </form>
         <h4 align="center">Directions</h4>
 
         <div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>
         <p class="spacer"></p>
-        <div id="POI" style="width:400px; height:800px;"></div>--!>
+        <div id="POI" style="width:400px; height:800px;"></div>
       </div>
     </div>
   </div>
