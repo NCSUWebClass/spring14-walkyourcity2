@@ -158,21 +158,30 @@
     		<div class="wrapper">
       			<div id="content">
         			<h2>Map</h2>
-        				<textarea id="search1" placeholder="Starting Location"></textarea>
-        				<textarea id="search2" placeholder="End Location"></textarea>
-        				<select id="cat1">
-        					<option value=""></option>
-        					<option value="museum">museum</option>
-        					<option value="park">park</option>
-           					<option value="restaurant">restaurant</option>
-           					<option value="shopping_mall">shopping mall</option>
-        				</select>
-        				<button type="submit" class="btn btn-primary large" onclick="initialize();">Submit</button>
-        			<h4 align="center">Directions</h4>
-
-        			<div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>
-        			<p class="spacer"></p>
-        			<div id="POI" style="width:400px; height:800px;"></div>
+        			<textarea id="search1" placeholder="Starting Location"></textarea>
+        			<textarea id="search2" placeholder="End Location"></textarea>
+        			<select id="cat1">
+        				<option value=""></option>
+        				<option value="museum">Museum</option>
+        				<option value="park">Park</option>
+           				<option value="restaurant">Restaurant</option>
+           				<option value="shopping_mall">Shopping Mall</option>
+        			</select>
+        			<button type="submit" class="btn btn-primary large" onclick="initialize();">Submit</button>
+					<table style="border-collapse:collapse;">
+						<tr style="background-color:#652d91;">
+							<th width="50%" style="border:1px solid #472066; color: white; padding:5px;">Points of Interest</th>
+							<th width="50%" style="border:1px solid #472066; color: white; padding:5px;">Directions</th>
+						</tr>
+						<tr>
+							<td style="vertical-align:top; border:1px solid #472066; padding:5px;">
+								<span id="POI" style="width:400px; height:800px;"></span>
+							</td>
+							<td style="vertical-align:top; border:1px solid #472066; padding:5px;">
+								<span id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></span>
+							</td>
+						</tr>
+					</table>
       			</div>
     		</div>
   		</div>
