@@ -1,36 +1,61 @@
 <!DOCTYPE html>
 <html>
 	<head>
-<title>Place searches</title>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-<meta charset="utf-8">
-<style type="text/css">
-	* {
-	  -webkit-box-sizing: border-box;
-	  -moz-box-sizing: border-box;
-  	  box-sizing: border-box;
-	}
+		<title>Place searches</title>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+		<style type="text/css">
+			* {
+				-webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+			}
 
-	html, body {
-    	  margin: 0px;
-    	  padding: 0px;
-    	}
+			html, body {
+    			margin: 0px;
+    			padding: 0px;
+  		}
+
+      body {
+        text-align:center;
+      }
+
+      #top {
+        width:90%;
+        margin:auto;
+      }
+
+      #poiBox {
+        position:fixed;
+        right:10%;
+        top:20px;
+        z-index:1;
+      }
+
+      #poiBox > li {
+        font-weight:bold;
+        pointer:cursor;
+      }
+      #poiBox > li:hover  {
+        color:red;
+      }
 
       #map-canvas {
-        width:70%;
+        width:90%;
         height:400px;
         border:1px solid #610585;
         border-radius: 3px;
         box-shadow:3px 3px 2px #888;
         margin:auto;
         margin-top:10px;
+        margin-bottom:15px;
       }
 
       #content {
         text-align:center;
       }
 
-      #submit {
+      .submit {
         background-color:#610585;
         padding:7px;
         font-weight:bold;
@@ -44,8 +69,61 @@
 
       }
 
+      #poi-list {
+        background-color:rgba(0, 0, 0, .3);
+        border:1px solid black;
+      }
+
       #submit:hover {
         color:#CCC;
+      }
+
+      .red {
+        color:red;
+        cursor:pointer;
+      }
+
+
+      #searchByLocation, #searchByType {
+        width:35em;
+        height:200px;
+        display:inline-block;
+        border:2px solid #222;
+        border-radius:5px;
+        box-shadow: 1px 1px #888;
+        float:left;
+        margin:20px;
+      }
+
+      .searches {
+        margin:auto;
+        margin-bottom:5px;
+        overflow:hidden;
+        display:inline-block;
+      }
+
+      #directions {
+        overflow: hidden; 
+        border-top:2px dashed;
+      }
+
+      #showHidePOI {
+        display:none;
+      }
+      
+      #resetLocation {
+        position:absolute;
+        float:left;
+        padding:5px;
+        font-weight:bold;
+        color:white;
+        text-shadow:2px 2px 1px black;
+        border:1px solid #D10823;
+        background-color:#D10823;
+        border-radius:3px;
+        box-shadow:1px 1px 1px black;
+        cursor:pointer;
+        margin-left:10px;
       }
 
 
@@ -55,16 +133,51 @@
       <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
   		<script type="text/javascript">
         $(document).ready(function () {
-
-
         
+        var resultList = new Array();
   			var map;
   			var infowindow = new google.maps.InfoWindow({content: ""});
   			var directionsService = new google.maps.DirectionsService();
-			var directionsDisplay = new google.maps.DirectionsRenderer();
+			  var directionsDisplay = new google.maps.DirectionsRenderer();
   			var pos;
   			var current_lat;
   			var current_lng;
+        var counter = 0;
+
+        $("#submit2").on('click', function () {
+          if (counter == 0) {
+            counter++;
+            $("#showHidePOI").css("display","inline");
+          }
+          initialize();
+        });
+
+        $("#resetLocation").on('click', function () {
+          map.setCenter(pos);
+        });
+
+        
+        $("#showHidePOI").on('click', function () {
+            showOrHidePOI();
+        });
+
+        function showOrHidePOI() {
+          if($("#poi-list > ol").children().length > 0) {
+              $("#poi-list").toggle();
+              if (counter != 0) {
+
+                if (counter%2 == 0) {
+                  $("#showHidePOI").html("Hide");
+                } else {
+                  $("#showHidePOI").html("Show");
+                }
+                counter++;
+              }
+              
+            }
+        }
+
+
 
   			function getDirections(place) {
 	
@@ -102,24 +215,21 @@
 
    						map = new google.maps.Map(document.getElementById('map-canvas'), {
     						center: pos,
-    						zoom: 15
+    						zoom: 13
   						});
+
  						var request = {
  							location: pyrmont,
-    						radius: 5000,
-    						types: ['restaurant']
+    						radius: 2000,
+    						types: ['restaurant'], 
+                sensor: true
   						};
    						request.types[0] =  document.getElementById("cat1").value;
-  						//var request2 = {
-  						//	location: pyrmont,
-  						//	radius: 5000,
-  						//	types: ['park']
-  						//};
+
   						infowindow = new google.maps.InfoWindow();
 
   						var service = new google.maps.places.PlacesService(map);
   						service.nearbySearch(request, callback);
-  						//service.nearbySearch(request2, callback);
 
 
   						var infowindow = new google.maps.InfoWindow({
@@ -138,19 +248,21 @@
   				}
 			  }
 
-      $("#submit").on('click', function () {
-        initialize();
-      });
+      
 
 			function callback(results, status) {
 				if (document.getElementById("poi-list")) {
 					document.getElementById("poi-list").remove();
 				}
+
+        $("#POI").empty();
 		  		// You don't actually need this container to make it work
   				var listContainer = document.createElement("div");
   				listContainer.setAttribute("id", "poi-list");
 				// add it to the page
+
 				document.getElementById("POI").appendChild(listContainer);
+
 				// Make the list itself which is a <ul>
 				var listElement = document.createElement("ol");
 				// add it to the page
@@ -158,16 +270,39 @@
 				// Set up a loop that goes through the items in listItems one at a time
 
 				if (status == google.maps.places.PlacesServiceStatus.OK) {
+            resultList = new Array();
+
 			  		for (var i = 0; i < results.length; i++) {
     					createMarker(results[i]);
     					console.log("Name of Place " + i + ": "+ results[i].name);
+
         	 			// create a <li> for each one.
          				var listItem = document.createElement("li");
+                listItem.setAttribute("name", i);
+                
+                resultList[i] = new google.maps.LatLng(results[i].geometry.location.k, results[i].geometry.location.A);
+ 
+
+                $(listItem).on('click', function () {
+                  
+                  map.setCenter(resultList[$(this).attr("name")]);
+
+                });
+
+
         				// add the item text
         				listItem.innerHTML = results[i].name;
         				// add listItem to the listElement
         				listElement.appendChild(listItem);
       				}
+              console.log(results)
+              console.log(resultList);
+            //Create a clone of the container and append it to fixed div
+            $(listContainer).appendTo($("#poiBox"));
+            $("#poiBox").find("li").css({"font-weight":"bold"});
+            $("#poiBox").find("li").hover(function () {
+              $(this).toggleClass("red");
+            });
     			}
   			}
 
@@ -179,13 +314,18 @@
     			});
 
     			google.maps.event.addListener(marker, 'click', function() {
-      				infowindow.setContent(place.name + "</br>" + place.rating + "/5");
+
+            if (place.rating ===undefined) {
+                infowindow.setContent(place.name);
+            } else {
+              infowindow.setContent(place.name + "</br>" + place.rating + "/5");
+            }
+      				
       				infowindow.open(map, this);
+              $("#search2").html(place.name);
       				getDirections(place);
     			});
   			}
-
-			//google.maps.event.addDomListener(window, 'load', initialize);
 	
 			Element.prototype.remove = function() {
     			this.parentElement.removeChild(this);
@@ -199,28 +339,50 @@
     			}
 			}
       initialize();
+
+      google.maps.event.addListener(map, 'click', function () {
+          showOrHidePOI();
+        });
+
       });
 		</script>
 	</head>
-	<body onload="initialize()">
+	<body>
+  <div id="top">
+    <div id="resetLocation">Reset Location</div>
+    <h2>Map</h2>
+    <div id="poiBox">
+      Points of Interests <button id="showHidePOI">Hide</button><br/>
+      <hr />
+    </div>
+  </div>
 		<div id="map-canvas"></div>
   		<div id="layout-middle">
     		<div class="wrapper">
       			<div id="content">
-        			<h2>Map</h2>
-        				<textarea id="search1" placeholder="Enter Start Location"></textarea>
-        				<textarea id="search2" placeholder="Enter End Location"></textarea>
-        				<select id="cat1">
-        					<option value=""></option>
-        					<option value="museum">Museum</option>
-        					<option value="park">Park</option>
-           					<option value="restaurant">Restaurant</option>
-           					<option value="shopping_mall">Shopping mall</option>
-        				</select>
-        				<div id="submit">Submit</div>
+            <div class="searches">
+        			  <div id="searchByLocation">
+                <h3>Search By Location</h3>
+                  <textarea id="search1" placeholder="Enter Start Location"></textarea>
+                  <textarea id="search2" placeholder="Enter End Location"></textarea><br/><br/>
+                  <div id="submit1" class="submit">Submit</div>
+                </div>
+                <div id="searchByType">
+                  <h3>Search By Type</h3>
+                  <select id="cat1">
+                    <option value="" selected>Select a Point of Interest</option>
+                    <option value="museum">Museum</option>
+                    <option value="park">Park</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="shopping_mall">Shopping mall</option>
+                  </select><br/><br/>
+                  <div id="submit2" class="submit">Submit</div>
+                </div>
+            </div>
+				
         			<h4 align="center">Directions</h4>
 
-        			<div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>
+        			<div id="directions"></div>
         			<p class="spacer"></p>
         			<div id="POI" style="width:400px; height:800px;"></div>
       			</div>
