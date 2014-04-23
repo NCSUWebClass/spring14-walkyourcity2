@@ -32,14 +32,6 @@
         z-index:1;
       }
 
-      #poiBox > li {
-        font-weight:bold;
-        pointer:cursor;
-      }
-      #poiBox > li:hover  {
-        color:red;
-      }
-
       #map-canvas {
         width:90%;
         height:400px;
@@ -67,11 +59,6 @@
         border:1px solid #610585;
         cursor:pointer;
 
-      }
-
-      #poi-list {
-        background-color:rgba(0, 0, 0, .3);
-        border:1px solid black;
       }
 
       #submit:hover {
@@ -128,7 +115,7 @@
 
 
   	</style>
-  		<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+  		<!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap.css"> -->
   		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places,geometry"></script>
       <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
   		<script type="text/javascript">
@@ -148,6 +135,7 @@
           if (counter == 0) {
             counter++;
             $("#showHidePOI").css("display","inline");
+            $("#poi-list").css("display","inline");
           }
           initialize();
         });
@@ -161,8 +149,10 @@
             showOrHidePOI();
         });
 
+
+
         function showOrHidePOI() {
-          if($("#poi-list > ol").children().length > 0) {
+          if($("#poi-list").children().length > 0) {
               $("#poi-list").toggle();
               if (counter != 0) {
 
@@ -217,6 +207,8 @@
     						center: pos,
     						zoom: 13
   						});
+
+
 
  						var request = {
  							location: pyrmont,
@@ -303,6 +295,7 @@
             $("#poiBox").find("li").hover(function () {
               $(this).toggleClass("red");
             });
+            $("#poi-list").css({"background-color":"rgba(0, 0, 0, .3)", "border":"1px solid black"});
     			}
   			}
 
@@ -338,11 +331,11 @@
         			}
     			}
 			}
-      initialize();
+      
 
-      google.maps.event.addListener(map, 'click', function () {
-          showOrHidePOI();
-        });
+      
+
+      initialize();
 
       });
 		</script>
