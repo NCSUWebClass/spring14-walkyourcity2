@@ -152,7 +152,7 @@
 
 
         function showOrHidePOI() {
-          if($("#poi-list").children().length > 0) {
+          if($("#poi-list > ol").children().length > 0) {
               $("#poi-list").toggle();
               if (counter != 0) {
 
