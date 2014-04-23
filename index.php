@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Place searches</title>
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-		<meta charset="utf-8">
-		<style type="text/css">
-			* {
-				-webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-			}
+<title>Place searches</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<style type="text/css">
+	* {
+	  -webkit-box-sizing: border-box;
+	  -moz-box-sizing: border-box;
+  	  box-sizing: border-box;
+	}
 
-			html, body, #map-canvas {
-    			margin: 0px;
-    			padding: 0px;
-  		}
-
-      body {
-
-      }
+	html, body {
+    	  margin: 0px;
+    	  padding: 0px;
+    	}
 
       #map-canvas {
         width:70%;
