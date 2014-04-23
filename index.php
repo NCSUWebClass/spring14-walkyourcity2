@@ -26,7 +26,7 @@
       }
 
       #poiBox {
-        position:fixed;
+        position:absolute;
         right:10%;
         top:20px;
         z-index:1;
