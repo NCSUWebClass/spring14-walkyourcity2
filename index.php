@@ -4,17 +4,64 @@
 		<title>Place searches</title>
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 		<meta charset="utf-8">
-		<style>
+		<style type="text/css">
+			* {
+				-webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+			}
+
 			html, body, #map-canvas {
-    			height: 80%;
     			margin: 0px;
-    			padding: 0px
-  			}
-  		</style>
+    			padding: 0px;
+  		}
+
+      body {
+
+      }
+
+      #map-canvas {
+        width:70%;
+        height:400px;
+        border:1px solid #610585;
+        border-radius: 3px;
+        box-shadow:3px 3px 2px #888;
+        margin:auto;
+        margin-top:10px;
+      }
+
+      #content {
+        text-align:center;
+      }
+
+      #submit {
+        background-color:#610585;
+        padding:7px;
+        font-weight:bold;
+        font-variant:small-caps;
+        color:white;
+        display:inline-block;
+        border-radius:3px;
+        font-size:16px;
+        border:1px solid #610585;
+        cursor:pointer;
+
+      }
+
+      #submit:hover {
+        color:#CCC;
+      }
+
+
+  	</style>
   		<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
   		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places,geometry"></script>
+      <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  		<script type="text/javascript">
+        $(document).ready(function () {
 
-  		<script>
+
+        
   			var map;
   			var infowindow = new google.maps.InfoWindow({content: ""});
   			var directionsService = new google.maps.DirectionsService();
@@ -25,24 +72,24 @@
 
   			function getDirections(place) {
 	
-				var curLoc = pos;
-				var endLoc = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.A);
-				directionsDisplay.setMap(map);
-				directionsDisplay.setPanel(document.getElementById("directions"));
-				var start = curLoc; //Harris Field
-				var end =  endLoc;	//Worksite address
-				var request = {
-					origin:start,
-    				destination:end,
-    				travelMode: google.maps.DirectionsTravelMode.WALKING,
-    				unitSystem: google.maps.UnitSystem.IMPERIAL
-      			};
-      			console.log("dest lat and lng: " + place.geometry.location.k + " " + place.geometry.location.A);
-				directionsService.route(request, function(response, status) {
-					if (status == google.maps.DirectionsStatus.OK) {
-						directionsDisplay.setDirections(response);
-					}
-				});
+  				var curLoc = pos;
+  				var endLoc = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.A);
+  				directionsDisplay.setMap(map);
+  				directionsDisplay.setPanel(document.getElementById("directions"));
+  				var start = curLoc; //Harris Field
+  				var end =  endLoc;	//Worksite address
+  				var request = {
+  					origin:start,
+      				destination:end,
+      				travelMode: google.maps.DirectionsTravelMode.WALKING,
+      				unitSystem: google.maps.UnitSystem.IMPERIAL
+        			};
+        			console.log("dest lat and lng: " + place.geometry.location.k + " " + place.geometry.location.A);
+  				directionsService.route(request, function(response, status) {
+  					if (status == google.maps.DirectionsStatus.OK) {
+  						directionsDisplay.setDirections(response);
+  					}
+  				});
   			}
 
   			function initialize() {
@@ -93,7 +140,11 @@
     				// Browser doesn't support Geolocation
     				handleNoGeolocation(false);
   				}
-			}
+			  }
+
+      $("#submit").on('click', function () {
+        initialize();
+      });
 
 			function callback(results, status) {
 				if (document.getElementById("poi-list")) {
@@ -125,7 +176,7 @@
   			}
 
   			function createMarker(place) {
-    			var placeLoc = place.geometry.location;
+    			//var placeLoc = place.geometry.location;
     			var marker = new google.maps.Marker({
       				map: map,
       				position: place.geometry.location
@@ -151,6 +202,8 @@
         			}
     			}
 			}
+      initialize();
+      });
 		</script>
 	</head>
 	<body onload="initialize()">
@@ -159,16 +212,16 @@
     		<div class="wrapper">
       			<div id="content">
         			<h2>Map</h2>
-        				<textarea id="search1" placeholder="Starting Location"></textarea>
-        				<textarea id="search2" placeholder="End Location"></textarea>
+        				<textarea id="search1" placeholder="Enter Start Location"></textarea>
+        				<textarea id="search2" placeholder="Enter End Location"></textarea>
         				<select id="cat1">
         					<option value=""></option>
-        					<option value="museum">museum</option>
-        					<option value="park">park</option>
-           					<option value="restaurant">restaurant</option>
-           					<option value="shopping_mall">shopping mall</option>
+        					<option value="museum">Museum</option>
+        					<option value="park">Park</option>
+           					<option value="restaurant">Restaurant</option>
+           					<option value="shopping_mall">Shopping mall</option>
         				</select>
-        				<button type="submit" class="btn btn-primary large" onclick="initialize();">Submit</button>
+        				<div id="submit">Submit</div>
         			<h4 align="center">Directions</h4>
 
         			<div id="directions" style="overflow: auto; height:200px;border-top:2px dashed;"></div>
