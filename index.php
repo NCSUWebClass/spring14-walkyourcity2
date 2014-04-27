@@ -232,6 +232,9 @@
       					pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       					current_lat = position.coords.latitude;
       					current_lng = position.coords.longitude;
+      					//weather applet
+      						var weather = document.getElementById("weatherFrame");
+							weather.setAttribute("src", "http://forecast.io/embed/#lat="+ current_lat +"&lon=" + current_lng );
 
      						var pyrmont = new google.maps.LatLng(current_lat, current_lng);
      						console.log("lat and lng: " + current_lat + " " +current_lng);
@@ -390,6 +393,7 @@
       </div>
     </div>
   		<div id="map-canvas"></div>
+  		<iframe id="weatherFrame" type="text/html" frameborder="0" height="245" width="100%" > </iframe>
   		<div id="currentLocationMobile">Current Location</div>
     		<div id="layout-middle">
       		<div class="wrapper">
