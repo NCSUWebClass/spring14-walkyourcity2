@@ -72,7 +72,7 @@
 
 
         #searchByLocation, #searchByType {
-          width:35em;
+          width:90%;
           height:200px;
           display:inline-block;
           border:2px solid #222;
@@ -225,7 +225,7 @@
     				});
 					$.ajax({
 						type: "GET" ,
-						url:"http://localhost:1234/walk/yelp.php?long=" + place.geometry.location.lng()  + "&lat=" + place.geometry.location.lat() +"&name=" +place.name + "&add=" +place.vicinity + ",NC 27606" ,
+						url:"/~Alex/spring14-walkyourcity2/yelp.php?long=" + place.geometry.location.lng()  + "&lat=" + place.geometry.location.lat() +"&name=" +place.name + "&add=" +place.vicinity + ",NC 27606" ,
 						})
 						.done(function( msg ) {
 							$("#yelp").text( msg) ;
