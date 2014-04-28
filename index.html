@@ -217,11 +217,21 @@
         				unitSystem: google.maps.UnitSystem.IMPERIAL
           			};
           			console.log("dest lat and lng: " + place.geometry.location.k + " " + place.geometry.location.A);
+					console.log("address:" + place.geometry.location.lat() );
     				directionsService.route(request, function(response, status) {
     					if (status == google.maps.DirectionsStatus.OK) {
     						directionsDisplay.setDirections(response);
     					}
     				});
+					$.ajax({
+						type: "GET" ,
+						url:"http://localhost:1234/walk/yelp.php?long=" + place.geometry.location.lng()  + "&lat=" + place.geometry.location.lat() +"&name=" +place.name + "&add=" +place.vicinity + ",NC 27606" ,
+						})
+						.done(function( msg ) {
+							$("#yelp").text( msg) ;
+					});
+					
+					
     			}
 
     			function initialize() {
@@ -417,7 +427,7 @@
                     <div id="submit2" class="submit">Submit</div>
                   </div>
               </div>
-  				
+					<h4 align="center"> <div id="yelp"></div></h4>
           			<h4 align="center">Directions</h4>
 
           			<div id="directions"></div>
