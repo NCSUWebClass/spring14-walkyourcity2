@@ -157,6 +157,7 @@
     			var infowindow = new google.maps.InfoWindow({content: ""});
     			var directionsService = new google.maps.DirectionsService();
   			  var directionsDisplay = new google.maps.DirectionsRenderer();
+  			  	var geocoder = new google.maps.Geocoder();
     			var pos;
     			var current_lat;
     			var current_lng;
@@ -166,7 +167,11 @@
              initialize();   
              clearMarkers();
           });
-
+			
+			$("#submit1").on('click', function () {
+             	initialize();   
+             	clearMarkers();
+         	 });
           $("#currentLocation, #currentLocationMobile").on('click', function () {
             map.setCenter(pos);
           });
@@ -208,8 +213,8 @@
     				var endLoc = new google.maps.LatLng(place.geometry.location.k, place.geometry.location.A);
     				directionsDisplay.setMap(map);
     				directionsDisplay.setPanel(document.getElementById("directions"));
-    				var start = curLoc; //Harris Field
-    				var end =  endLoc;	//Worksite address
+    				var start = curLoc; 
+    				var end =  endLoc;	
     				var request = {
     					origin:start,
         				destination:end,
@@ -239,9 +244,24 @@
     				// Try HTML5 geolocation
   				if (navigator.geolocation) {
   					navigator.geolocation.getCurrentPosition(function(position) {
-      					pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      					current_lat = position.coords.latitude;
-      					current_lng = position.coords.longitude;
+  						if(document.getElementById("search1").value != ""){
+  						console.log(document.getElementById("search1").value + "Value!");
+  							var addr =  document.getElementById("search1").value;
+  							geocoder.geocode( { 'address': addr}, function(results, status) {
+      							if (status == google.maps.GeocoderStatus.OK) {
+       								pos = results[0].geometry.location;
+       								current_lat = results[0].geometry.location.k;
+      								current_lng =results[0].geometry.location.A;
+      							} else {
+        							alert("Geocode was not successful for the following reason: " + status);
+      							}
+    						});
+  						}
+  						else{
+  							pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      						current_lat = position.coords.latitude;
+      						current_lng = position.coords.longitude;
+  						}
       					//weather applet
       						var weather = document.getElementById("weatherFrame");
 							weather.setAttribute("src", "http://forecast.io/embed/#lat="+ current_lat +"&lon=" + current_lng );
@@ -412,8 +432,7 @@
               <div class="searches">
           			  <div id="searchByLocation">
                   <h3>Search By Location</h3>
-                    <textarea id="search1" placeholder="Enter Start Location"></textarea>
-                    <textarea id="search2" placeholder="Enter End Location"></textarea><br/><br/>
+                    <textarea id="search1" placeholder="Enter Start Location"></textarea></br>
                     <div id="submit1" class="submit">Submit</div>
                   </div>
                   <div id="searchByType">
