@@ -230,7 +230,7 @@
     				});
 					$.ajax({
 						type: "GET" ,
-						url:"/~Alex/spring14-walkyourcity2/yelp.php?long=" + place.geometry.location.lng()  + "&lat=" + place.geometry.location.lat() +"&name=" +place.name + "&add=" +place.vicinity + ",NC 27606" ,
+						url:"yelp.php?long=" + place.geometry.location.lng()  + "&lat=" + place.geometry.location.lat() +"&name=" +place.name + "&add=" +place.vicinity + ",NC 27606" ,
 						})
 						.done(function( msg ) {
 							$("#yelp").text( msg) ;
@@ -431,7 +431,7 @@
         			<div id="content">
               <div class="searches">
           			  <div id="searchByLocation">
-                  <h3>Search By Location</h3>
+                  <h3>Starting Location</h3>
                     <textarea id="search1" placeholder="Enter Start Location"></textarea></br>
                     <div id="submit1" class="submit">Submit</div>
                   </div>
